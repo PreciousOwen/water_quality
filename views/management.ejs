@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Water Quality Management Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #f6f8fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 32px 40px 40px 40px;
+    }
+    h1 {
+      color: #1a237e;
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      color: #607d8b;
+      margin-bottom: 32px;
+      font-size: 1.1rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 24px;
+      background: #fafbfc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    th, td {
+      padding: 14px 12px;
+      text-align: center;
+    }
+    th {
+      background: #e3eafc;
+      color: #1a237e;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-bottom: 2px solid #c5cae9;
+    }
+    tr:nth-child(even) {
+      background: #f4f6fb;
+    }
+    tr:hover {
+      background: #e8eaf6;
+      transition: background 0.2s;
+    }
+    .insufficient {
+      color: #d32f2f;
+      font-weight: bold;
+      background: #ffebee;
+      border-radius: 6px;
+      padding: 6px 12px;
+      display: inline-block;
+    }
+    .sufficient {
+      color: #388e3c;
+      font-weight: bold;
+      background: #e8f5e9;
+      border-radius: 6px;
+      padding: 6px 12px;
+      display: inline-block;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .dot-insufficient { background: #d32f2f; }
+    .dot-sufficient { background: #388e3c; }
+    @media (max-width: 700px) {
+      .container { padding: 16px 4px; }
+      h1 { font-size: 1.5rem; }
+      th, td { padding: 8px 4px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Water Quality Management</h1>
+    <div class="subtitle">Monitor real-time water quality sensor data and trends</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Turbidity</th>
+          <th>pH</th>
+          <th>Ultrasonic (mm)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% allData.forEach(function(data) { %>
+          <tr>
+            <td><%= new Date(data.created_at || data.createdAt).toLocaleString() %></td>
+            <td><%= data.turbidity %></td>
+            <td><%= data.ph %></td>
+            <td><%= data.ultrasonic %></td>
+            <td>
+              <span class="status-dot dot-<%= data.water_status || data.waterStatus %>"></span>
+              <span class="<%= data.water_status || data.waterStatus %>"><%= (data.water_status || data.waterStatus).charAt(0).toUpperCase() + (data.water_status || data.waterStatus).slice(1) %></span>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
